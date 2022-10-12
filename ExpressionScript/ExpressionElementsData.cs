@@ -2,30 +2,30 @@
 
 namespace ExpressionScript;
 
-public static class ExpressionScriptElementsData
+public static class ExpressionElementsData
 {
-    public static List<KeyValuePair<String, ExpressionScriptElementType>> SimpleElementsNames { get; } = new()
+    public static List<KeyValuePair<String, ExpressionElementType>> SimpleElementsNames { get; } = new()
     {
-        new(",", ExpressionScriptElementType.Operator),
-       new("(", ExpressionScriptElementType.Operator),
-       new(")", ExpressionScriptElementType.Operator),
-       new("<", ExpressionScriptElementType.Operator),
-       new(">", ExpressionScriptElementType.Operator),
-       new("=", ExpressionScriptElementType.Operator),
-       new("div(", ExpressionScriptElementType.Function),
-       new("mod(", ExpressionScriptElementType.Function),
-       new("or", ExpressionScriptElementType.Operator),
-       new("and", ExpressionScriptElementType.Operator),
-       new("not", ExpressionScriptElementType.Operator),
-       new("mmax", ExpressionScriptElementType.Function),
-       new("mmin", ExpressionScriptElementType.Function),
-       new ("true", ExpressionScriptElementType.Boolean),
-       new ("false", ExpressionScriptElementType.Boolean),
+        new(",", ExpressionElementType.Operator),
+       new("(", ExpressionElementType.Operator),
+       new(")", ExpressionElementType.Operator),
+       new("<", ExpressionElementType.Operator),
+       new(">", ExpressionElementType.Operator),
+       new("=", ExpressionElementType.Operator),
+       new("div(", ExpressionElementType.Function),
+       new("mod(", ExpressionElementType.Function),
+       new("or", ExpressionElementType.Operator),
+       new("and", ExpressionElementType.Operator),
+       new("not", ExpressionElementType.Operator),
+       new("mmax", ExpressionElementType.Function),
+       new("mmin", ExpressionElementType.Function),
+       new ("true", ExpressionElementType.Boolean),
+       new ("false", ExpressionElementType.Boolean),
     };
     
-    public static List<KeyValuePair<Regex, ExpressionScriptElementType>> ComplexElementsNames { get; } = new()
+    public static List<KeyValuePair<Regex, ExpressionElementType>> ComplexElementsNames { get; } = new()
     {
-        new(new Regex(@"^\d+$"), ExpressionScriptElementType.Number),
-        new (new Regex(@"^[A-Z]+\d+$"), ExpressionScriptElementType.Variable),
+        new(new Regex(@"^\d+$"), ExpressionElementType.Number),
+        new (new Regex(@"^[A-Z]+\d+$"), ExpressionElementType.Variable),
     };
 }

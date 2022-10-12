@@ -18,7 +18,7 @@ public class Tests
     public void Test1()
     {
         String code1 = "div(div(mod(10,20),40),mmax(10,20,30))";
-        var res = _optimizer.OptimizeExpression(code1);
+        var res = _optimizer.Optimize(code1);
         Console.WriteLine(res.Count);
         foreach (var i in res)
         {
