@@ -2,22 +2,22 @@
 
 namespace ExpressionScript.Validation;
 
-public class SimpleExpressionElementValidator : IValidator<String, ExpressionElement>
+public class SimpleExpressionElementValidator : IValidator<String, ExpressionElementType>
 {
-    private readonly Bor<char, ExpressionElement> _bor;
+    private readonly Bor<char, ExpressionElementType> _bor;
     
     
     public SimpleExpressionElementValidator()
     {
-        _bor = new Bor<char, ExpressionElement>();
+        _bor = new Bor<char, ExpressionElementType>();
         foreach (var i in ExpressionElementsData.SimpleElementsNames)
         {
             _bor.AddElement(i.Key,i.Value);
         }
     }
     
-    public ExpressionElement ValidationResult(string code)
+    public ExpressionElementType ValidationResult(string code)
     {
-        return _bor.HasPrefix(code) ? _bor[code] : ExpressionElement.UndefinedElement;
+        return _bor.HasPrefix(code) ? _bor[code] : ExpressionElementType.UndefinedElement;
     }
 }

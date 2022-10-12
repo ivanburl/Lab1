@@ -1,16 +1,16 @@
 ﻿namespace ExpressionScript.Validation;
 
-public class ComplexExpressionElementValidator : IValidator<String, ExpressionElement>
+public class ComplexExpressionElementValidator : IValidator<String, ExpressionElementType>
 {
-    public ExpressionElement ValidationResult(string code)
+    public ExpressionElementType ValidationResult(string code)
     {
         var complexElementNames = ExpressionElementsData.ComplexElementsNames;
-        ExpressionElement res = ExpressionElement.UndefinedElement;
+        ExpressionElementType res = ExpressionElementType.UndefinedElement;
         foreach (var i in complexElementNames)
         {
             if (i.Key.IsMatch(code))
             {
-                if (res != ExpressionElement.UndefinedElement) return ExpressionElement.PartiallyDefinedElement;
+                if (res != ExpressionElementType.UndefinedElement) return ExpressionElementType.PartiallyDefinedElement;
                 res = i.Value;
             }
         }

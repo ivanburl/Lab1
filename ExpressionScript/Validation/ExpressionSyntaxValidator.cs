@@ -1,19 +1,20 @@
 ﻿using ExpressionScript.Optimization;
+using ExpressionScript.PreProcessing;
 
 namespace ExpressionScript.Validation;
 
-public class ExpressionSyntaxValidator : IValidator<String, String> //TODO improve Error Validation
+public class ExpressionSyntaxValidator : IValidator<String, String>
 {
     public ExpressionSyntaxValidator()
     {
         _complexExpressionElementValidator = new ComplexExpressionElementValidator();
         _simpleExpressionElementValidator = new SimpleExpressionElementValidator();
-        _expressionOptimizer = new ExpressionOptimizer();
+        _expressionPreprocessing = new ExpressionPreprocessing();
     }
 
-    private readonly ComplexExpressionElementValidator _complexExpressionElementValidator;
-    private readonly SimpleExpressionElementValidator _simpleExpressionElementValidator;
-    private readonly ExpressionOptimizer _expressionOptimizer;
+    private readonly IValidator<String, ExpressionElementType> _complexExpressionElementValidator;
+    private readonly IValidator<String, ExpressionElementType> _simpleExpressionElementValidator;
+    private readonly IPreprocessingExpression _expressionPreprocessing;
 
     private bool checkClosingElements(string code)
     {
@@ -31,27 +32,29 @@ public class ExpressionSyntaxValidator : IValidator<String, String> //TODO impro
     
     public bool ExpressionElementsCheck(String expression)
     {
-        var cleanExpression = _expressionOptimizer.CleanExpression(expression) + ' ';
+        var cleanExpression = _expressionPreprocessing.Clean(expression);
+        if (cleanExpression[^1] != ' ') cleanExpression += ' ';
+        
         var currentElement = String.Empty;
-        var simpleValidation = ExpressionElement.UndefinedElement;
-        var complexValidation = ExpressionElement.UndefinedElement;
+        var simpleValidation = ExpressionElementType.UndefinedElement;
+        var complexValidation = ExpressionElementType.UndefinedElement;
         
         for (int i = 0; i < cleanExpression.Length; i++)
         {
             currentElement += cleanExpression[i];
-            ExpressionElement simpleValidationFlag = _simpleExpressionElementValidator.ValidationResult(currentElement);
-            ExpressionElement complexValidationFlag = _complexExpressionElementValidator.ValidationResult(currentElement);
+            ExpressionElementType simpleValidationFlag = _simpleExpressionElementValidator.ValidationResult(currentElement);
+            ExpressionElementType complexValidationFlag = _complexExpressionElementValidator.ValidationResult(currentElement);
 
-            if (simpleValidationFlag == (ExpressionElement)(-1) && 
-                complexValidationFlag == (ExpressionElement)(-1))
+            if (simpleValidationFlag == (ExpressionElementType)(-1) && 
+                complexValidationFlag == (ExpressionElementType)(-1))
             {
-                if (simpleValidation >= (ExpressionElement) 1 ||
-                    complexValidation >= (ExpressionElement) 1)
+                if (simpleValidation >= (ExpressionElementType) 1 ||
+                    complexValidation >= (ExpressionElementType) 1)
                 {
                     currentElement = String.Empty;
                     if (cleanExpression[i] != ' ') i--;
-                    simpleValidationFlag = ExpressionElement.UndefinedElement;
-                    complexValidationFlag = ExpressionElement.UndefinedElement;
+                    simpleValidationFlag = ExpressionElementType.UndefinedElement;
+                    complexValidationFlag = ExpressionElementType.UndefinedElement;
                 } else 
                     return false;
             }
