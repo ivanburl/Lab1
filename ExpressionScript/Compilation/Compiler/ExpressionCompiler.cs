@@ -2,7 +2,7 @@
 using ExpressionScript.Data;
 using ExpressionScript.Data.Model;
 
-namespace ExpressionScript.Compilation;
+namespace ExpressionScript.Compilation.Compiler;
 
 public class ExpressionCompiler : ICompiler<List<ExpressionElement>>
 {
@@ -47,7 +47,6 @@ public class ExpressionCompiler : ICompiler<List<ExpressionElement>>
                 {
                     var arg1 = Parse(new BigInteger()).Invoke();
                     var arg2 = Parse(new BigInteger()).Invoke();
-                    Console.WriteLine("Divide" + arg1 + " " + arg2);
                     var res = BigInteger.Divide((BigInteger)arg1, (BigInteger)arg2);
                     return Parse(res).Invoke();
                 };
@@ -146,5 +145,4 @@ public class ExpressionCompiler : ICompiler<List<ExpressionElement>>
 
         throw new InvalidOperationException("Unsupported operation or function " + _expression[_i]);
     }
-    
 }
