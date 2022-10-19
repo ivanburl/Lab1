@@ -1,23 +1,21 @@
-﻿using System.Text.RegularExpressions;
+﻿using ExpressionScript.Data;
+using ExpressionScript.Data.Model;
 
 namespace ExpressionScript.PreProcessing;
 
-public class ExpressionPreprocessing : IPreprocessingExpression
+public class ExpressionPreprocessing : IPreprocessing<ExpressionElement, List<ExpressionElement>>
 {
-    public string Clean(string expression)
+    public List<ExpressionElement> ParseConstants(List<ExpressionElement> expression,
+        IDictionary<ExpressionElement, ExpressionElement> constants)
     {
-        Regex.Replace(expression, @"\s{2,}", " "); 
-        return expression;
-    }
-
-    public void ParseConstants(List<ExpressionElement> expression, IDictionary<String, ExpressionElement> constants) 
-    {
-        for (int i=0;i<expression.Count;i++)
-        {
-            if (expression[i].ExpressionType == ExpressionElementType.Variable)
+        for (var i = 0; i < expression.Count; i++)
+            if (expression[i].ExpressionType == ExpressionElementType.Constant)
             {
-                expression[i] = constants[expression[i].Expression];
+                if (!constants.ContainsKey(expression[i]))
+                    throw new KeyNotFoundException($"{expression[i].Expression} was not found in given constants.");
+                expression[i] = constants[expression[i]];
             }
-        }
+
+        return expression;
     }
 }

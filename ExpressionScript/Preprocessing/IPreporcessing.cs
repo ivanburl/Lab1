@@ -1,6 +1,6 @@
 ﻿namespace ExpressionScript.PreProcessing;
 
-public interface IPreprocessingExpression
+public interface IPreprocessing<T, TV>
 {
-    String Clean(String expression);
+    TV ParseConstants(TV expression, IDictionary<T, T> constants);
 }
