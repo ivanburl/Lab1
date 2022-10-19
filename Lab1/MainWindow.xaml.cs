@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using ExpressionScript.Data;
+using ExpressionScript.Data.Model;
 using Lab1.Excel;
 
 namespace Lab1
@@ -13,7 +15,7 @@ namespace Lab1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ExcelTable Table { get; }
+        public ExcelTable<ExpressionElement> Table { get; }
 
         public ObservableCollection<String> ColumnNames { get;}
         public ObservableCollection<String> RowNames { get; }
@@ -24,11 +26,16 @@ namespace Lab1
         public MainWindow()
         {
             //TODO move columns and rows to the table
-            Table = new ExcelTable(tableRows, tableColumns, new ExcelCell(0, 0, typeof(int)));
+            Table = new ExcelTable<ExpressionElement>(
+                tableRows, 
+                tableColumns, 
+                new ExcelCell<ExpressionElement>(
+                    0, 
+                    new ExpressionElement("0", ExpressionElementType.Number)));
+            
             RowNames = new ObservableCollection<String>(generateRowNames(Table.Rows));
             ColumnNames = new ObservableCollection<String>(generateColumnNames(Table.Columns));
-            Console.WriteLine("Hello World!");
-            
+
             InitializeComponent();
         }
         
@@ -59,7 +66,6 @@ namespace Lab1
             var names = new List<String>();
             for (int i = 1; i <= columns; i++)
             {
-                //TODO we can optimize adding but code anyway will be fast enough
                 names.Add(generateColumnName(i));
             }
             return names;

@@ -54,7 +54,7 @@
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Tag="{Binding Id}" Content="{Binding Value}" Click="ButtonBase_OnClick" Margin="0,0,5,5" />
+                    <Button Tag="{Binding Id}" Content="{Binding Value.Expression}" Click="ButtonBase_OnClick" Margin="0,0,5,5" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

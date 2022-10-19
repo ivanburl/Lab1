@@ -37,7 +37,7 @@
                     <Setter Property="Margin" Value="10,0,0,0"/>
                 </Style>
             </StackPanel.Resources>
-            <Button Name="okButton" IsDefault="True">Apply expression</Button>
+            <Button Name="okButton" IsDefault="True" Click="OkButton_OnClick">Apply expression</Button>
             <Button Name="cancelButton" IsCancel="True">Close</Button>
         </StackPanel>
     </Grid>

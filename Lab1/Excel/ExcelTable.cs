@@ -3,23 +3,23 @@ using System.Collections.ObjectModel;
 
 namespace Lab1.Excel;
 
-public class ExcelTable
+public class ExcelTable<T>
 {
-    public ExcelTable(int rows, int columns, ExcelCell defaultCell)
+    public ExcelTable(int rows, int columns, ExcelCell<T> defaultCell)
     {
         Rows = rows;
         Columns = columns;
-        Cells = new ObservableCollection<ExcelCell>(generateCells(rows, columns, defaultCell));
+        Cells = new ObservableCollection<ExcelCell<T>>(generateCells(rows, columns, defaultCell));
     }
 
-    private List<ExcelCell> generateCells(int width, int height, ExcelCell defaultCell)
+    private List<ExcelCell<T>> generateCells(int width, int height, ExcelCell<T> defaultCell)
     {
-        var cells = new List<ExcelCell>();
+        var cells = new List<ExcelCell<T>>();
         for (int i = 1; i <= height; i++)
         {
             for (int j = 1; j <= width; j++)
             {
-                cells.Add(new ExcelCell((i-1)*width+j,defaultCell));
+                cells.Add(new ExcelCell<T>((i-1)*width+j,defaultCell));
             }
         }
 
@@ -27,6 +27,6 @@ public class ExcelTable
     }
     public int Rows { get; } 
     public int Columns { get; }
-    public ObservableCollection<ExcelCell> Cells { get; }
+    public ObservableCollection<ExcelCell<T>> Cells { get; }
 
 }

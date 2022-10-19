@@ -2,13 +2,12 @@
 
 namespace Lab1.Excel;
 
-public class ExcelCell
+public class ExcelCell<T>
 {
-    public ExcelCell(long id, object value, Type valueType)
+    public ExcelCell(long id, T value)
     {
         Id = id;
         Value = value;
-        ValueType = valueType;
     }
     
     /// <summary>
@@ -16,12 +15,11 @@ public class ExcelCell
     /// </summary>
     /// <param name="id"></param>
     /// <param name="cellInstance"></param>
-    public ExcelCell(long id, ExcelCell cellInstance) : this(id, cellInstance.Value, cellInstance.ValueType)
+    public ExcelCell(long id, ExcelCell<T> cellInstance) : this(id, cellInstance.Value)
     {
         
     }
 
     public long Id { get; set; }
-    public object Value { get; set; }
-    public Type ValueType { get; set; }
+    public T Value { get; set; }
 }
