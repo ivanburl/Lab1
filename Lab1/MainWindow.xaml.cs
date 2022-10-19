@@ -16,7 +16,7 @@ namespace Lab1
     public partial class MainWindow : Window
     {
         public ExcelTable<ExpressionElement> Table { get; }
-
+        
         public ObservableCollection<String> ColumnNames { get;}
         public ObservableCollection<String> RowNames { get; }
         
@@ -31,7 +31,8 @@ namespace Lab1
                 tableColumns, 
                 new ExcelCell<ExpressionElement>(
                     0, 
-                    new ExpressionElement("0", ExpressionElementType.Number)));
+                    new ExpressionElement("0", ExpressionElementType.Number)),
+                new CellAddressConverter(tableRows, tableColumns));
             
             RowNames = new ObservableCollection<String>(generateRowNames(Table.Rows));
             ColumnNames = new ObservableCollection<String>(generateColumnNames(Table.Columns));
