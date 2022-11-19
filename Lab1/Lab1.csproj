@@ -5,7 +5,12 @@
         <TargetFramework>net6.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>myIcone.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="myIcone.ico" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\ExpressionScript\ExpressionScript.csproj" />

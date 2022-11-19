@@ -4,20 +4,30 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Головне вікно" Height="450" Width="800">
 
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+        <ToolBar Grid.Row="0" Grid.ColumnSpan="2"  VerticalAlignment="Top" Margin="10,0">
+            <Button Name="Info" Click="ButtonInfo_OnClick">Інформація</Button>
+            <Button>
+                <Hyperlink NavigateUri="http://codeproject.com"> 
+                    Git link
+                </Hyperlink>
+            </Button>
+        </ToolBar>
         
-        <ItemsControl ItemsSource="{Binding Path=ColumnNames}" Grid.Column="1" Grid.Row="0">
+        <ItemsControl ItemsSource="{Binding Path=ColumnNames}" Grid.Column="1" Grid.Row="1">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="1" Columns="{Binding Table.Columns}"/>
@@ -31,7 +41,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         
-        <ItemsControl ItemsSource="{Binding Path=RowNames}" Grid.Column="0" Grid.Row="1">
+        <ItemsControl ItemsSource="{Binding Path=RowNames}" Grid.Column="0" Grid.Row="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="{Binding Table.Rows}" Columns="1"/>
@@ -45,7 +55,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         
-        <ItemsControl ItemsSource="{Binding Path=Table.Cells}" Grid.Column="1" Grid.Row="1">
+        <ItemsControl ItemsSource="{Binding Path=Table.Cells}" Grid.Column="1" Grid.Row="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="{Binding Table.Rows}" Columns="{Binding Table.Columns}"/>
@@ -54,7 +64,7 @@
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Tag="{Binding Id}" Content="{Binding Value.Expression}" Click="ButtonBase_OnClick" Margin="0,0,5,5" />
+                    <Button Tag="{Binding Address}" Content="{Binding Value}" Click="ButtonBase_OnClick" Margin="0,0,5,5" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

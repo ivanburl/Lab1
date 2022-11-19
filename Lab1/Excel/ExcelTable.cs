@@ -1,45 +1,59 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Text;
+using System.Windows.Automation;
+using ExpressionScript.Compilation;
+using ExpressionScript.Data;
 using ExpressionScript.Data.Model;
+using ExpressionScript.Parsing;
+using Lab1.Excel.Address;
+using Lab1.Excel.Address.Converter;
 
 namespace Lab1.Excel;
 
-public class ExcelTable<T> where T : notnull
+public class ExcelTable
 {
-    private readonly IAddress<T, long> _addressConverter;
-    public ExcelTable(int rows, int columns, ExcelCell<T> defaultCell, IAddress<T, long> addressConverter)
+    private readonly IAddressConverter<DefaultAddress, ExcelAddress> _converter;
+    
+    public int Rows { get; }
+    public int Columns { get; }
+    public ObservableCollection<ExcelCell> Cells { get;  }
+
+    public ExcelTable(int rows, int columns, ExcelCell defaultCell, IAddressConverter<DefaultAddress, ExcelAddress> converter)
     {
         Rows = rows;
         Columns = columns;
-        Cells = new ObservableCollection<ExcelCell<T>>(generateCells(rows, columns, defaultCell));
-        Constants = new Dictionary<T, T>();
-        _addressConverter = addressConverter;
+        _converter = converter;
+        Cells = new ObservableCollection<ExcelCell>(generateCells(rows, columns, defaultCell));
+    }
+    
+    public void SetCell(ExcelCell cell)
+    {
+        var defaultAddress = _converter.Convert(cell.Address);
+        var id = (defaultAddress.Row - 1) * Columns + defaultAddress.Column - 1;
+        Cells[id] = cell;
     }
 
-    private List<ExcelCell<T>> generateCells(int width, int height, ExcelCell<T> defaultCell)
+    public ExcelCell GetCell(ExcelAddress excelAddress)
     {
-        var cells = new List<ExcelCell<T>>();
-        for (int i = 1; i <= height; i++)
+        var defaultAddress = _converter.Convert(excelAddress);
+        var id = (defaultAddress.Row - 1) * Columns + defaultAddress.Column - 1;
+        return Cells[id];
+    }
+    private List<ExcelCell> generateCells(int width, int height, ExcelCell defaultCell)
+    {
+        var cells = new List<ExcelCell>();
+        
+        for (var i = 1; i <= width; i++)
+        for (var j = 1; j <= height; j++)
         {
-            for (int j = 1; j <= width; j++)
-            {
-                int cellId = (i - 1) * width + j;
-                cells.Add(new ExcelCell<T>(cellId,defaultCell));
-                Constants.Add(_addressConverter.IdToAddress(cellId), defaultCell.Value);
-            }
+            var address = _converter.Convert(new DefaultAddress(i, j));
+            cells.Add(new ExcelCell(address, defaultCell.Expression, defaultCell.Value));
         }
 
         return cells;
     }
-
-    public void SetCelL(int id, ExcelCell<T> cell)
-    {
-        var address = _addressConverter.IdToAddress(id);
-        Cells[id] = cell;
-        Constants[address] = cell.Value;
-    }
-    public int Rows { get; } 
-    public int Columns { get; }
-    public ObservableCollection<ExcelCell<T>> Cells { get; }
-    public IDictionary<T, T> Constants { get; }
 }

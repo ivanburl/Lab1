@@ -1,25 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Lab1.Excel.Address;
 
 namespace Lab1.Excel;
 
-public class ExcelCell<T>
+public class ExcelCell : INotifyPropertyChanged
 {
-    public ExcelCell(long id, T value)
+    private ExcelAddress _address;
+    private object _value;
+    private string _expression;
+    
+    public ExcelCell(ExcelAddress address, string expression, object value)
     {
-        Id = id;
+        Address = address;
+        Expression = expression;
         Value = value;
     }
-    
-    /// <summary>
-    /// Copy constructor from instance of another cell with new id
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="cellInstance"></param>
-    public ExcelCell(long id, ExcelCell<T> cellInstance) : this(id, cellInstance.Value)
+
+    public string Expression
     {
-        
+        get => _expression;
+        set => SetField(ref _expression, value ?? throw new ArgumentNullException(nameof(value)), "Expression");
     }
 
-    public long Id { get; set; }
-    public T Value { get; set; }
+    public object Value
+    {
+        get => _value;
+        set => SetField(ref _value, value ?? throw new ArgumentNullException(nameof(value)), "Value");
+    }
+
+    public ExcelAddress Address
+    {
+        get => _address;
+        set => SetField(ref _address, value ?? throw new ArgumentNullException(nameof(value)), "Address");
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public override string ToString()
+    {
+        return $"{nameof(Address)}: {Address}, {nameof(Expression)}: {Expression}, {nameof(Value)}: {Value}";
+    }
+    
+    private bool SetField<T>(ref T field, T value, string propertyName)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 }

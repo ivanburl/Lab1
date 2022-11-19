@@ -22,11 +22,11 @@ public class ExpressionStringCompiler : ICompiler<string>
     private readonly IValidator<string, SyntaxError> _validator =
         new ExpressionSyntaxValidator();
 
-    private readonly IDictionary<ExpressionElement, ExpressionElement> _constants;
+    public IDictionary<ExpressionElement, ExpressionElement> Constants { get; set; }
 
     public ExpressionStringCompiler(IDictionary<ExpressionElement, ExpressionElement> constants)
     {
-        _constants = constants;
+        Constants = constants;
     }
 
     public Func<object> Compile(string expression)
@@ -39,7 +39,7 @@ public class ExpressionStringCompiler : ICompiler<string>
 
         var expressionElementsList = _parser.parse(expression);
 
-        expressionElementsList = _preprocessing.ParseConstants(expressionElementsList, _constants);
+        expressionElementsList = _preprocessing.ParseConstants(expressionElementsList, Constants);
 
         return _compiler.Compile(expressionElementsList);
     }

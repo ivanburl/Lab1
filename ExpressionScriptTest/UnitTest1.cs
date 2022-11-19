@@ -15,6 +15,7 @@ public class Tests
     public void Setup()
     {
         constants.Add(new ExpressionElement("A11", ExpressionElementType.Constant), new ExpressionElement("10", ExpressionElementType.Number));
+        constants.Add(new ExpressionElement("C2", ExpressionElementType.Constant), new ExpressionElement("20", ExpressionElementType.Number));
         _compiler = new ExpressionStringCompiler(constants);
     }
 
