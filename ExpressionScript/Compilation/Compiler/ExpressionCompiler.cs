@@ -122,7 +122,7 @@ public class ExpressionCompiler : ICompiler<List<ExpressionElement>>
                 return () =>
                 {
                     var arg1 = Parse(new object()).Invoke();
-                    return o.Equals(arg1);
+                    return ((BigInteger)o).Equals(arg1);
                 };
             }
             case ">":

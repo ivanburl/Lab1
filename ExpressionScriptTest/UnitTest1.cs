@@ -1,3 +1,4 @@
+using System.Numerics;
 using ExpressionScript.Compilation;
 using ExpressionScript.Compilation.Compiler;
 using ExpressionScript.Data;
@@ -11,7 +12,7 @@ public class Tests
 {
     private ExpressionStringCompiler _compiler;
     private Dictionary<ExpressionElement, ExpressionElement> constants = new ();
-    [SetUp]
+    [OneTimeSetUp]
     public void Setup()
     {
         constants.Add(new ExpressionElement("A11", ExpressionElementType.Constant), new ExpressionElement("10", ExpressionElementType.Number));
@@ -24,15 +25,15 @@ public class Tests
     {
         String code1 = "div(A11,2)";
         var res = _compiler.Compile(code1);
-        Console.WriteLine(res.Invoke());
+        Assert.That(res.Invoke(), Is.EqualTo(new BigInteger(5)));
     }
 
     [Test]
     public void Test2()
     {
-        String code2 = "(div(4,1)>2) = true";
+        String code2 = "(div(4,1)>2) and true";
         var res = _compiler.Compile(code2);
-        Console.WriteLine(res.Invoke());
+        Assert.That(res.Invoke(), Is.EqualTo(true));
     }
     
     [Test]
@@ -40,7 +41,7 @@ public class Tests
     {
         String code2 = "div(100,mod(10,20))";
         var res = _compiler.Compile(code2);
-        Console.WriteLine(res.Invoke());
+        Assert.That(res.Invoke(), Is.EqualTo(new BigInteger(10)));
     }
 
     [Test]
@@ -48,7 +49,7 @@ public class Tests
     {
         String code2 = "mmax(10,20,-10, 1000000000)";
         var res = _compiler.Compile(code2);
-        Console.WriteLine(res.Invoke());
+        Assert.That(res.Invoke(), Is.EqualTo(new BigInteger(1000000000)));
     }
     
     [Test]
@@ -56,6 +57,14 @@ public class Tests
     {
         String code2 = "-100";
         var res = _compiler.Compile(code2);
-        Console.WriteLine(res.Invoke());
+        Assert.That(res.Invoke(), Is.EqualTo(new BigInteger(-100)));
+    }
+    
+    [Test]
+    public void Test5()
+    {
+        String code2 = "1 = 1";
+        var res = _compiler.Compile(code2);
+        Assert.That(res.Invoke(), Is.EqualTo(true));
     }
 }

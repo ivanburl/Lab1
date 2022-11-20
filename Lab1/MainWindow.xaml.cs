@@ -93,6 +93,11 @@ public partial class MainWindow : Window
 
     private void ButtonInfo_OnClick(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        MessageBox.Show("Ця програма в якомусь сенсі копіює функціональність Excel.\n" +
+                        "Підтримує такі операції:\n" +
+                        "1) div(a,b); mod(a,b); mmax(a1,a2,..,an); mmin(a1,a2,...,am); (only numbers)\n" +
+                        "2) or; and; not; (only bools) \n" +
+                        "3) >; <; =; (only numbers) \n"
+                        + "Автор: Ivan Burlutskiy, K-26, 2022", "Інформація про застосування");
     }
 }

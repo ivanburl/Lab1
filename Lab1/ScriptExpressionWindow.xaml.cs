@@ -43,7 +43,10 @@ public partial class ScriptExpressionWindow : Window
         ResultValue.Content = _cell.Value;
         ResultType.Content = _cell.Value.GetType();
         
-        MessageBox.Show("Зміни успішно застосовані!" + _cell);
+        MessageBox.Show("Зміни успішно застосовані!\n" + 
+                        $"Value: {_cell.Value}\n" +
+                        $"Expression: {_cell.Expression}\n" +
+                        $"Address: {_cell.Address.Address}\n");
     }
 
 

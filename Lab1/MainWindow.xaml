@@ -20,11 +20,6 @@
 
         <ToolBar Grid.Row="0" Grid.ColumnSpan="2"  VerticalAlignment="Top" Margin="10,0">
             <Button Name="Info" Click="ButtonInfo_OnClick">Інформація</Button>
-            <Button>
-                <Hyperlink NavigateUri="http://codeproject.com"> 
-                    Git link
-                </Hyperlink>
-            </Button>
         </ToolBar>
         
         <ItemsControl ItemsSource="{Binding Path=ColumnNames}" Grid.Column="1" Grid.Row="1">
